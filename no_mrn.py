@@ -48,7 +48,7 @@ def fix_ocr_text(text: str) -> str:
 
 
 # Regex for Singapore NRIC/FIN: one letter [STFG], 7 digits, then a checksum letter
-NRIC_REGEX = re.compile(r'^[=:$\s-]*[STFG]\d{7}[A-Z]$', re.IGNORECASE)
+NRIC_REGEX = re.compile(r'^[=:$\s-]*[15$STFG]\d{7}[!210A-Z]$', re.IGNORECASE)
 
 
 def _detect_and_mask(image, ocr_data, debug=False) -> Tuple[int, any]:
