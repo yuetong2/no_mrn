@@ -1,0 +1,23 @@
+services:
+  # Backend API
+  - type: web
+    name: no-mrn-api
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn server:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: PORT
+        generateValue: true
+    healthCheckPath: /health
+
+  # Frontend
+  - type: web
+    name: no-mrn-frontend
+    env: static
+    buildCommand: "cd frontend/frontend && npm install && npm run build"
+    staticPublishPath: ./frontend/frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://no-mrn-api.onrender.com

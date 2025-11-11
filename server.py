@@ -14,10 +14,12 @@ from no_mrn import mask_nric_in_image
 
 app = FastAPI(title="MRN/NRIC Masking API")
 
-# Allow Vite dev server by default
+# Allow Vite dev server and production frontend
 allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    # Add your Render frontend URL here after deployment:
+    # "https://your-frontend-name.onrender.com",
 ]
 app.add_middleware(
     CORSMiddleware,
