@@ -92,13 +92,25 @@ def mask_nric_in_image(input_path: str, output_path: Optional[str] = None, debug
     image = cv2.imread(input_path)
     if image is None:
         raise FileNotFoundError(f"Cannot read image: {input_path}")
+    
+    scale = 3.0  # 3x upscale ~ boosts DPI
+    orig_height, orig_width = image.shape[:2]
+    new_width = int(orig_width * scale)
+    new_height = int(orig_height * scale)
+    image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+    # Print sizes: original and resized. Use debug for more verbose output.
+    if debug:
+        print(f"size: original={orig_width}x{orig_height}, resized={new_width}x{new_height}")
+    else:
+        print(f"resized image size = {new_width}x{new_height}")
+
 
     # Convert to RGB for pytesseract
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     # Run OCR
     try:
-        ocr_data = pytesseract.image_to_data(rgb_image, output_type=pytesseract.Output.DICT)
+        ocr_data = pytesseract.image_to_data(rgb_image, output_type=pytesseract.Output.DICT, config="--oem 1 --psm 6")
     except Exception as e:
         raise RuntimeError(f"OCR failed: {e}")
 
