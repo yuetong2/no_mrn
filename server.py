@@ -19,6 +19,8 @@ allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://no-mrn-1-dngt.onrender.com",  # No trailing slash
+    "https://no-mrn-2.onrender.com",  # No trailing slash
+    
 ]
 app.add_middleware(
     CORSMiddleware,
