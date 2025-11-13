@@ -17,11 +17,16 @@ import cv2
 import pytesseract
 
 # -----------------------------
-# Optional - Tesseract path (Windows)
+# Optional - Tesseract path (Windows and Linux)
 # If Tesseract is installed in the default location on Windows, set it.
 _win_default_tesseract = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 if os.name == "nt" and os.path.exists(_win_default_tesseract):
     pytesseract.pytesseract.tesseract_cmd = _win_default_tesseract
+elif os.name == "posix":  # Linux/macOS (Render uses Linux)
+    # Render should have tesseract at /usr/bin/tesseract
+    linux_tesseract = "/usr/bin/tesseract"
+    if os.path.exists(linux_tesseract):
+        pytesseract.pytesseract.tesseract_cmd = linux_tesseract
 
 
 # Simple character-level OCR corrections for common confusions
@@ -94,13 +99,16 @@ def mask_nric_in_image(input_path: str, output_path: Optional[str] = None, debug
         raise FileNotFoundError(f"Cannot read image: {input_path}")
     
     height, width = image.shape[:2]
-    print(f"Initial size = {width}x{height}")
+    if debug:
+        print(f"Initial size = {width}x{height}")
+    
     scale = 3.0  # 3x upscale ~ boosts DPI
-
-    image = cv2.resize(image, (int(width * 
-    scale), int(height * scale)), interpolation=cv2.INTER_CUBIC)
-    print(f"After size = {width}x{height}")
-
+    new_width = int(width * scale)
+    new_height = int(height * scale)
+    image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+    
+    if debug:
+        print(f"After size = {new_width}x{new_height}")
 
     # Convert to RGB for pytesseract
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

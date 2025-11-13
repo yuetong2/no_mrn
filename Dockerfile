@@ -1,13 +1,26 @@
-# Use official Render Python image
+# Use official Python runtime as base image
 FROM python:3.12-slim
 
-# Install Tesseract and dependencies
-RUN apt-get update && apt-get install -y tesseract-ocr libtesseract-dev libleptonica-dev && rm -rf /var/lib/apt/lists/*
+# Install system dependencies including Tesseract OCR and OpenCV dependencies
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy code and install Python deps
+# Set working directory
 WORKDIR /app
-COPY . .
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Start Streamlit
-CMD ["streamlit", "run", "app.py", "--server.port", "10000", "--server.address", "0.0.0.0"]
+# Copy application code
+COPY . .
+
+# Expose port (Render will set PORT env variable)
+EXPOSE 10000
+
+# Run the application
+CMD ["sh", "-c", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-10000}"]
