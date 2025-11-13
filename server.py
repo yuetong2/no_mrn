@@ -55,8 +55,8 @@ async def mask(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
         with open(in_path, "wb") as f:
             shutil.copyfileobj(file.file, f)
 
-        # Run masking with debug=True to see OCR output in terminal
-        masked_path, masked_count = mask_nric_in_image(in_path, out_path, debug=True)
+        # Run masking with debug=False for production
+        masked_path, masked_count = mask_nric_in_image(in_path, out_path, debug=False)
 
         # Prepare response filename
         safe_name = Path(file.filename).stem
@@ -80,8 +80,9 @@ async def mask(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
         )
     except HTTPException:
         raise
-    except FileNotFoundError:
+    except FileNotFoundError as e:
         # Clean up on error
+        print(f"ERROR: File not found - {e}")
         try:
             os.unlink(in_path)
         except:
@@ -93,6 +94,9 @@ async def mask(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Could not read the uploaded image")
     except Exception as e:
         # Clean up on error
+        print(f"ERROR: Masking failed - {type(e).__name__}: {e}")
+        import traceback
+        traceback.print_exc()
         try:
             os.unlink(in_path)
         except:
@@ -101,8 +105,11 @@ async def mask(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
             os.unlink(out_path)
         except:
             pass
-        # Log in real usage; return generic error
-        return JSONResponse(status_code=500, content={"error": "Processing failed", "detail": str(e)})
+        # Return detailed error for debugging
+        return JSONResponse(
+            status_code=500, 
+            content={"error": "Processing failed", "detail": str(e), "type": type(e).__name__}
+        )
 
 
 # Entry point for `python server.py` during development

@@ -17,11 +17,16 @@ import cv2
 import pytesseract
 
 # -----------------------------
-# Optional - Tesseract path (Windows)
+# Optional - Tesseract path (Windows and Linux)
 # If Tesseract is installed in the default location on Windows, set it.
 _win_default_tesseract = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 if os.name == "nt" and os.path.exists(_win_default_tesseract):
     pytesseract.pytesseract.tesseract_cmd = _win_default_tesseract
+elif os.name == "posix":  # Linux/macOS (Render uses Linux)
+    # Render should have tesseract at /usr/bin/tesseract
+    linux_tesseract = "/usr/bin/tesseract"
+    if os.path.exists(linux_tesseract):
+        pytesseract.pytesseract.tesseract_cmd = linux_tesseract
 
 
 # Simple character-level OCR corrections for common confusions
