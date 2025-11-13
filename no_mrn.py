@@ -93,16 +93,12 @@ def mask_nric_in_image(input_path: str, output_path: Optional[str] = None, debug
     if image is None:
         raise FileNotFoundError(f"Cannot read image: {input_path}")
     
+    print(f"Initial size = {width}x{height}")
     scale = 3.0  # 3x upscale ~ boosts DPI
-    orig_height, orig_width = image.shape[:2]
-    new_width = int(orig_width * scale)
-    new_height = int(orig_height * scale)
-    image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
-    # Print sizes: original and resized. Use debug for more verbose output.
-    if debug:
-        print(f"size: original={orig_width}x{orig_height}, resized={new_width}x{new_height}")
-    else:
-        print(f"resized image size = {new_width}x{new_height}")
+    height, width = image.shape[:2]
+    image = cv2.resize(image, (int(width * 
+    scale), int(height * scale)), interpolation=cv2.INTER_CUBIC)
+    print(f"After size = {width}x{height}")
 
 
     # Convert to RGB for pytesseract
