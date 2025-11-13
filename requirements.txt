@@ -2,7 +2,7 @@ fastapi==0.115.5
 uvicorn[standard]==0.32.1
 opencv-python==4.10.0.84
 pytesseract==0.3.13
-Pillow==11.0.0
+Pillow==10.4.0
 python-multipart==0.0.20
 # Use a NumPy version with prebuilt wheels for newer Python versions
 numpy>=2.1.0
