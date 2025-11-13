@@ -93,9 +93,10 @@ def mask_nric_in_image(input_path: str, output_path: Optional[str] = None, debug
     if image is None:
         raise FileNotFoundError(f"Cannot read image: {input_path}")
     
+    height, width = image.shape[:2]
     print(f"Initial size = {width}x{height}")
     scale = 3.0  # 3x upscale ~ boosts DPI
-    height, width = image.shape[:2]
+
     image = cv2.resize(image, (int(width * 
     scale), int(height * scale)), interpolation=cv2.INTER_CUBIC)
     print(f"After size = {width}x{height}")

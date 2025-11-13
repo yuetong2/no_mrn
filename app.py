@@ -2,7 +2,7 @@ import streamlit as st
 import cv2
 import numpy as np
 import pytesseract
-from mask_nric_in_image import _detect_and_mask, fix_ocr_text  # import from your script
+from no_mrn import _detect_and_mask, fix_ocr_text  
 
 st.set_page_config(page_title="NRIC Masking Tool", page_icon="🕵️")
 
