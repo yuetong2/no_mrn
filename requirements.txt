@@ -7,3 +7,5 @@ python-multipart==0.0.20
 # Use a NumPy version with prebuilt wheels for newer Python versions
 numpy>=2.1.0
 python-multipart==0.0.20
+streamlit
+streamlit==1.39.0
