@@ -18,8 +18,7 @@ app = FastAPI(title="MRN/NRIC Masking API")
 allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    # Add your Render frontend URL here after deployment:
-    # "https://your-frontend-name.onrender.com",
+    "https://no-mrn-frontend.onrender.com",  # Replace with your actual frontend URL
 ]
 app.add_middleware(
     CORSMiddleware,
