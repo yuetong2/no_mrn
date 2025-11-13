@@ -18,7 +18,8 @@ app = FastAPI(title="MRN/NRIC Masking API")
 allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://no-mrn-1-dngt.onrender.com",  # No trailing slash
+    "https://no-mrn-1-dngt.onrender.com",   # No trailing slash
+    "https://no-mrn-h7k9.onrender.com",
 ]
 app.add_middleware(
     CORSMiddleware,
