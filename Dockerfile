@@ -22,5 +22,5 @@ COPY . .
 # Expose port (Render will set PORT env variable)
 EXPOSE 10000
 
-# Run the application
-CMD ["sh", "-c", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-10000}"]
+# Run the Streamlit application
+CMD ["sh", "-c", "streamlit run app.py --server.port=${PORT:-10000} --server.address=0.0.0.0"]
