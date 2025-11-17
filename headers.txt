@@ -1,12 +1,13 @@
-HTTP/1.1 200 OK
-date: Tue, 11 Nov 2025 07:56:40 GMT
-server: uvicorn
-x-masked-count: 1
-cache-control: no-store
-content-type: image/jpeg
-accept-ranges: bytes
-content-disposition: attachment; filename="masked_maybethisone.jpg"
-content-length: 72636
-last-modified: Tue, 11 Nov 2025 07:56:41 GMT
-etag: "d314391c28ab23344e09426191f69bf6"
+HTTP/1.1 404 Not Found
+Date: Thu, 13 Nov 2025 06:54:58 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-RAY: 99dc5c5b48f65ffc-SIN
+rndr-id: df4979f3-f915-4503
+vary: Accept-Encoding
+x-render-origin-server: uvicorn
+cf-cache-status: DYNAMIC
+Server: cloudflare
+alt-svc: h3=":443"; ma=86400
 
